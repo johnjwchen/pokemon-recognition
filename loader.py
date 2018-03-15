@@ -5,6 +5,8 @@ import os
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import time
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 def load_images_from_folder(folder):
     images = []
@@ -190,21 +192,57 @@ def heavy_augment(images):
         random_order=True
     )
 
+    images_aug = seq.augment_images(images)
 
-if __name__ == "__main__":
+    return images_aug
+
+def load_data():
     start_time = time.time()
-
     # Load input(X)
     images, file_names = load_images_from_folder('pokemon_images')
     images_simple_aug = simple_augment(images)
     images_heavy_aug = heavy_augment(images)
 
+    image_data = np.asarray(images + images_simple_aug + images_heavy_aug)
+    image_data_flatten = image_data.reshape(image_data.shape[0], -1).T
+
+    num_example = len(image_data)
+    num_element = images[0].shape[0] * images[0].shape[1] * images[0].shape[2]
+
+    print "Input size: {}".format(image_data_flatten.shape)
+    assert image_data_flatten.shape == (num_element, num_example)
+
     # Load output(Y)
     labels = [int(filename.strip('0').strip('.png')) for filename in file_names]
-    
+    labels_data = np.asarray(labels + labels + labels)
+    labels_flatten = labels_data.reshape(labels_data.shape[0], -1).T
 
-    print "time used {} second".format(time.time() - start_time)
-    print labels
-    # imgplot = plt.imshow(images_aug[0])
-    # plt.show()
+    print "Output size: {}".format(labels_flatten.shape)
+    assert labels_flatten.shape == (1, num_example)
 
+    # Shuffle data to train, test
+    X_train, X_test, y_train, y_test = train_test_split(image_data_flatten.T, labels_flatten.T, test_size=0.2, random_state=42)
+
+    # Shuffle data to train, dev
+    # X_train, X_test, X_dev, X_dev_test = train_test_split(X_train, y_train, test_size=0.05, random_state=42)
+
+    print "Time used {} second for loading data..".format(time.time() - start_time)
+
+    return X_train.T, X_test.T, y_train.T, y_test.T
+
+if __name__ == "__main__":
+    start_time = time.time()
+
+    X_train, X_test, y_train, y_test = load_data()
+
+    print "X_train {}".format(X_train.shape)
+    print "X_test {}".format(X_test.shape)
+    print "y_train {}".format(y_train.shape)
+    print "y_test {}".format(y_test.shape)
+
+
+    # TODO: training model
+
+    # TODO: predict
+
+    print "Training finished! Time used {} seconds!".format(time.time() - start_time)
