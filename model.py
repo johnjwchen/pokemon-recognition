@@ -1,6 +1,6 @@
 import numpy as np
-import h5py
-import matplotlib.pyplot as plt
+# import h5py
+from matplotlib import pyplot as plt
 # from testCases import *
 
 from reg_utils import initialize_parameters_deep, L_model_forward, compute_cost, L_model_backward, update_parameters
@@ -20,7 +20,7 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
     num_iterations -- number of iterations of the optimization loop
     print_cost -- if True, it prints the cost every 100 steps
     
-    Returns:
+    Returns
     parameters -- parameters learnt by the model. They can then be used to predict.
     """
 
@@ -36,22 +36,22 @@ def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, 
     for i in range(0, num_iterations):
 
         # Forward propagation: [LINEAR -> RELU]*(L-1) -> LINEAR -> SIGMOID.
-        ### START CODE HERE ### (≈ 1 line of code)
+        ### START CODE HERE ### (~ 1 line of code)
         AL, caches = L_model_forward(X, parameters)
         ### END CODE HERE ###
         
         # Compute cost.
-        ### START CODE HERE ### (≈ 1 line of code)
+        ### START CODE HERE ### (~ 1 line of code)
         cost = compute_cost(AL, Y)
         ### END CODE HERE ###
     
         # Backward propagation.
-        ### START CODE HERE ### (≈ 1 line of code)
+        ### START CODE HERE ### (~ 1 line of code)
         grads = L_model_backward(AL, Y, caches)
         ### END CODE HERE ###
  
         # Update parameters.
-        ### START CODE HERE ### (≈ 1 line of code)
+        ### START CODE HERE ### (~ 1 line of code)
         parameters = update_parameters(parameters, grads, learning_rate)
         ### END CODE HERE ###
                 

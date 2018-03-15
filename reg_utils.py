@@ -1,5 +1,4 @@
 import numpy as np
-
 from dnn_utils import sigmoid, sigmoid_backward, relu, relu_backward
 
 # GRADED FUNCTION: initialize_parameters_deep
@@ -20,7 +19,7 @@ def initialize_parameters_deep(layer_dims):
     L = len(layer_dims)            # number of layers in the network
 
     for l in range(1, L):
-        ### START CODE HERE ### (≈ 2 lines of code)
+        ### START CODE HERE ### ( ~ 2 lines of code)
         parameters['W' + str(l)] = np.random.randn(layer_dims[l], layer_dims[l - 1]) * 0.01
         parameters['b' + str(l)] = np.zeros((layer_dims[l], 1))
         ### END CODE HERE ###
@@ -28,7 +27,6 @@ def initialize_parameters_deep(layer_dims):
         assert(parameters['W' + str(l)].shape == (layer_dims[l], layer_dims[l - 1]))
         assert(parameters['b' + str(l)].shape == (layer_dims[l], 1))
 
-        
     return parameters
 
 
@@ -49,7 +47,7 @@ def linear_forward(A, W, b):
     cache -- a python dictionary containing "A", "W" and "b" ; stored for computing the backward pass efficiently
     """
     
-    ### START CODE HERE ### (≈ 1 line of code)
+    ### START CODE HERE ### (~ 1 line of code)
     Z = np.dot(W, A) + b
     ### END CODE HERE ###
     
@@ -79,14 +77,14 @@ def linear_activation_forward(A_prev, W, b, activation):
     
     if activation == "sigmoid":
         # Inputs: "A_prev, W, b". Outputs: "A, activation_cache".
-        ### START CODE HERE ### (≈ 2 lines of code)
+        ### START CODE HERE ### (~ 2 lines of code)
         Z, linear_cache = linear_forward(A_prev, W, b)
         A, activation_cache = sigmoid(Z)
         ### END CODE HERE ###
     
     elif activation == "relu":
         # Inputs: "A_prev, W, b". Outputs: "A, activation_cache".
-        ### START CODE HERE ### (≈ 2 lines of code)
+        ### START CODE HERE ### (~ 2 lines of code)
         Z, linear_cache = linear_forward(A_prev, W, b)
         A, activation_cache = relu(Z)
         ### END CODE HERE ###
@@ -122,7 +120,7 @@ def L_model_forward(X, parameters):
     # Implement [LINEAR -> RELU]*(L-1). Add "cache" to the "caches" list.
     for l in range(1, L):
         A_prev = A 
-        ### START CODE HERE ### (≈ 2 lines of code)
+        ### START CODE HERE ### (~ 2 lines of code)
         A, cache = linear_activation_forward(A_prev, 
                                              parameters['W' + str(l)], 
                                              parameters['b' + str(l)], 
@@ -132,7 +130,7 @@ def L_model_forward(X, parameters):
         ### END CODE HERE ###
     
     # Implement LINEAR -> SIGMOID. Add "cache" to the "caches" list.
-    ### START CODE HERE ### (≈ 2 lines of code)
+    ### START CODE HERE ### (~ 2 lines of code)
     AL, cache = linear_activation_forward(A, 
                                           parameters['W' + str(L)], 
                                           parameters['b' + str(L)], 
@@ -163,7 +161,7 @@ def compute_cost(AL, Y):
     m = Y.shape[1]
 
     # Compute loss from aL and y.
-    ### START CODE HERE ### (≈ 1 lines of code)
+    ### START CODE HERE ### (~ 1 lines of code)
     cost = (-1 / m) * np.sum(np.multiply(Y, np.log(AL)) + np.multiply(1 - Y, np.log(1 - AL)))
     ### END CODE HERE ###
     
@@ -191,7 +189,7 @@ def linear_backward(dZ, cache):
     A_prev, W, b = cache
     m = A_prev.shape[1]
 
-    ### START CODE HERE ### (≈ 3 lines of code)
+    ### START CODE HERE ### (~ 3 lines of code)
     dW = np.dot(dZ, cache[0].T) / m
     db = np.squeeze(np.sum(dZ, axis=1, keepdims=True)) / m
     dA_prev = np.dot(cache[1].T, dZ)
@@ -224,12 +222,12 @@ def linear_activation_backward(dA, cache, activation):
     linear_cache, activation_cache = cache
     
     if activation == "relu":
-        ### START CODE HERE ### (≈ 2 lines of code)
+        ### START CODE HERE ### (~ 2 lines of code)
         dZ = relu_backward(dA, activation_cache)
         ### END CODE HERE ###
         
     elif activation == "sigmoid":
-        ### START CODE HERE ### (≈ 2 lines of code)
+        ### START CODE HERE ### (~ 2 lines of code)
         dZ = sigmoid_backward(dA, activation_cache)
         ### END CODE HERE ###
     
@@ -309,7 +307,7 @@ def update_parameters(parameters, grads, learning_rate):
     L = len(parameters) // 2 # number of layers in the neural network
 
     # Update rule for each parameter. Use a for loop.
-    ### START CODE HERE ### (≈ 3 lines of code)
+    ### START CODE HERE ### (~ 3 lines of code)
     for l in range(L):
         parameters["W" + str(l + 1)] = parameters["W" + str(l + 1)] - learning_rate * grads["dW" + str(l + 1)]
         parameters["b" + str(l + 1)] = parameters["b" + str(l + 1)] - learning_rate * grads["db" + str(l + 1)]
