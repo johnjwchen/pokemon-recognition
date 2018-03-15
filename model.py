@@ -6,6 +6,15 @@ from matplotlib import pyplot as plt
 from reg_utils import initialize_parameters_deep, L_model_forward, compute_cost, L_model_backward, update_parameters
 
 
+def predict(X, Y, parameters):
+    """
+    """
+    AL, _ = L_model_forward(X, parameters)
+    m = Y.shape[1]
+    acc = np.sum(AL == Y) / m
+    return AL, acc
+
+
 # GRADED FUNCTION: n_layer_model
 
 def L_layer_model(X, Y, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=False): #lr was 0.009
