@@ -1,3 +1,7 @@
+import numpy as np
+
+from dnn_utils import sigmoid, sigmoid_backward, relu, relu_backward
+
 # GRADED FUNCTION: initialize_parameters_deep
 
 def initialize_parameters_deep(layer_dims):

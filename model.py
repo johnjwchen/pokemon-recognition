@@ -2,7 +2,7 @@ import numpy as np
 import h5py
 import matplotlib.pyplot as plt
 # from testCases import *
-from dnn_utils import sigmoid, sigmoid_backward, relu, relu_backward
+
 from reg_utils import initialize_parameters_deep, L_model_forward, compute_cost, L_model_backward, update_parameters
 
 
