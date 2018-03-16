@@ -2,6 +2,27 @@
 import numpy as np
 from dnn_app_utils_v2 import *
 
+
+def predict(parameters, X):
+    """
+    Using the learned parameters, predicts a class for each example in X
+
+    Arguments:
+    parameters -- python dictionary containing your parameters
+    X -- input data of size (n_x, m)
+
+    Returns
+    predictions -- vector of predictions of our model (red: 0 / blue: 1)
+    """
+
+    # Computes probabilities using forward propagation, and classifies to 0/1 using 0.5 as the threshold.
+    ### START CODE HERE ### (≈ 2 lines of code)
+    AL, cache = L_model_forward(X, parameters)
+    predictions = (AL > 0.5) + 0
+    ### END CODE HERE ###
+
+    return predictions
+
 def L_layer_model(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 3000, print_cost=False):#lr was 0.009
     """
     Implements a L-layer neural network: [LINEAR->RELU]*(L-1)->LINEAR->SIGMOID.
@@ -50,16 +71,16 @@ def L_layer_model(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 30
         ### END CODE HERE ###
                 
         # Print the cost every 100 training example
-        if print_cost and i % 100 == 0:
+        if print_cost and i % 1 == 0:
             print ("Cost after iteration %i: %f" %(i, cost))
         if print_cost and i % 100 == 0:
             costs.append(cost)
             
     # plot the cost
-    plt.plot(np.squeeze(costs))
-    plt.ylabel('cost')
-    plt.xlabel('iterations (per tens)')
-    plt.title("Learning rate =" + str(learning_rate))
-    plt.show()
+    # plt.plot(np.squeeze(costs))
+    # plt.ylabel('cost')
+    # plt.xlabel('iterations (per tens)')
+    # plt.title("Learning rate =" + str(learning_rate))
+    # plt.show()
     
     return parameters

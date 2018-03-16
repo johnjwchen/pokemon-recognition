@@ -128,7 +128,7 @@ def L_model_forward(X, parameters):
     caches.append(cache)
     ### END CODE HERE ###
     
-    assert(AL.shape == (1, X.shape[1]))
+    assert(AL.shape == (801, X.shape[1]))
             
     return AL, caches
 
