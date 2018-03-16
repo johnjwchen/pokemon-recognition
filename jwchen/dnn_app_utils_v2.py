@@ -1,5 +1,5 @@
 # coding: utf-8
-import numpy as np
+import minpy.numpy as np
 # import h5py
 import matplotlib.pyplot as plt
 # from testCases_v3 import *

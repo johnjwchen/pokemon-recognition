@@ -1,5 +1,5 @@
 # coding: utf-8
-import numpy as np
+import minpy.numpy as np
 
 def sigmoid(Z):
 	A = 1/(1+np.exp(-Z))
