@@ -22,7 +22,6 @@ def initialize_parameters_zeros(layers_dims):
     L = len(layers_dims)            # number of layers in the network
     
     for l in range(1, L):
-        ### START CODE HERE ### (≈ 2 lines of code)
         parameters['W' + str(l)] = np.zeros((layers_dims[l], layers_dims[l - 1]))
         parameters['b' + str(l)] = np.zeros((layers_dims[l], 1))
         ### END CODE HERE ###
@@ -226,6 +225,9 @@ def linear_backward(dZ, cache):
     
     assert (dA_prev.shape == A_prev.shape)
     assert (dW.shape == W.shape)
+    if not (isinstance(db, float)):
+        print dZ
+        print cache
     assert (isinstance(db, float))
     
     return dA_prev, dW, db
@@ -292,7 +294,7 @@ def L_model_backward(AL, Y, caches):
     
     # Initializing the backpropagation
     ### START CODE HERE ### (1 line of code)
-    dAL = dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL))
+    dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL))
     ### END CODE HERE ###
     
     # Lth layer (SIGMOID -> LINEAR) gradients. Inputs: "AL, Y, caches". Outputs: "grads["dAL"], grads["dWL"], grads["dbL"]
@@ -308,7 +310,8 @@ def L_model_backward(AL, Y, caches):
         # Inputs: "grads["dA" + str(l + 2)], caches". Outputs: "grads["dA" + str(l + 1)] , grads["dW" + str(l + 1)] , grads["db" + str(l + 1)] 
         ### START CODE HERE ### (approx. 5 lines)
         current_cache = caches[l]
-        dA_prev_temp, dW_temp, db_temp = linear_backward(sigmoid_backward(dAL, caches[1]), caches[0])
+        #TODO: error here
+        dA_prev_temp, dW_temp, db_temp = linear_backward(relu_backward(grads["dA" + str(l + 2)], current_cache[1]), current_cache[0])
         grads["dA" + str(l + 1)] = dA_prev_temp
         grads["dW" + str(l + 1)] = dW_temp
         grads["db" + str(l + 1)] = db_temp

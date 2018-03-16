@@ -1,4 +1,3 @@
-
 import imgaug as ia
 from imgaug import augmenters as iaa
 import cv2
@@ -8,12 +7,15 @@ import matplotlib.image as mpimg
 import time
 import numpy as np
 from sklearn.model_selection import train_test_split
+from model import L_layer_model
+from model import predict
+import scipy
 
 def load_images_from_folder(folder):
     images = []
     file_names = []
     for filename in os.listdir(folder):
-        img = cv2.imread(os.path.join(folder, filename))
+        img = scipy.misc.imresize(cv2.imread(os.path.join(folder, filename)), 0.5)
         if img is not None:
             images.append(img)
             file_names.append(filename)
@@ -205,7 +207,7 @@ def load_data():
     images_heavy_aug = heavy_augment(images)
 
     image_data = np.asarray(images + images_simple_aug + images_heavy_aug)
-    image_data_flatten = image_data.reshape(image_data.shape[0], -1).T
+    image_data_flatten = image_data.reshape(image_data.shape[0], -1).T / 255
 
     num_example = len(image_data)
     num_element = images[0].shape[0] * images[0].shape[1] * images[0].shape[2]
@@ -216,7 +218,7 @@ def load_data():
     # Load output(Y)
     labels = [int(filename.strip('0').strip('.png')) for filename in file_names]
     labels_data = np.asarray(labels + labels + labels)
-    labels_flatten = labels_data.reshape(labels_data.shape[0], -1).T
+    labels_flatten = labels_data.reshape(labels_data.shape[0], -1).T / num_example
 
     print "Output size: {}".format(labels_flatten.shape)
     assert labels_flatten.shape == (1, num_example)
@@ -242,8 +244,12 @@ if __name__ == "__main__":
     print "y_test {}".format(y_test.shape)
 
 
-    # TODO: training model
-
-    # TODO: predict
-
+    # Training model
+    layers_dims = (X_train.shape[0], 100, y_train.shape[0])
+    parameters = L_layer_model(X_train, y_train, layers_dims, learning_rate=0.0075, num_iterations=3000, print_cost=True)
     print "Training finished! Time used {} seconds!".format(time.time() - start_time)
+
+    # Predict
+    AL, acc = predict(X_test, y_test, parameters)
+
+    print "Accuracy: {}".format(acc)
