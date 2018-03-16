@@ -55,7 +55,7 @@ def linear_forward(A, W, b):
     assert(Z.shape == (W.shape[0], A.shape[1]))
     cache = (A, W, b)
     
-    return Z, cache
+    return Z.asnumpy(), cache
 
 
 def linear_activation_forward(A_prev, W, b, activation):
@@ -91,7 +91,7 @@ def linear_activation_forward(A_prev, W, b, activation):
     assert (A.shape == (W.shape[0], A_prev.shape[1]))
     cache = (linear_cache, activation_cache)
 
-    return A, cache
+    return A.asnumpy(), cache
 
 
 
@@ -184,7 +184,7 @@ def linear_backward(dZ, cache):
     assert (dW.shape == W.shape)
     assert (db.shape == b.shape)
     
-    return dA_prev, dW, db
+    return dA_prev.asnumpy(), dW.asnumpy(), db.asnumpy()
 
 
 def linear_activation_backward(dA, cache, activation):
@@ -215,7 +215,7 @@ def linear_activation_backward(dA, cache, activation):
         dA_prev, dW, db = linear_backward(dZ, linear_cache)
         ### END CODE HERE ###
     
-    return dA_prev, dW, db
+    return dA_prev.asnumpy(), dW.asnumpy(), db.asnumpy()
 
 
 
