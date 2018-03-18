@@ -215,7 +215,7 @@ def load_data():
     num_example = len(image_data)
     num_element_x = images[0].shape[0] * images[0].shape[1] * images[0].shape[2]
 
-    print "Input size: {}".format(image_data_flatten.shape)
+    print ("Input size: {}".format(image_data_flatten.shape))
     assert image_data_flatten.shape == (num_element_x, num_example)
 
     # Load output(Y)
@@ -228,7 +228,7 @@ def load_data():
     for i in range(0, num_example - 1):
         labels_flatten[label_data[i] - 1][i] = 1
 
-    print "Output size: {}".format(labels_flatten.shape)
+    print ("Output size: {}".format(labels_flatten.shape))
     assert labels_flatten.shape == (num_element_y, num_example)
 
     # Shuffle data to train, test
@@ -237,7 +237,7 @@ def load_data():
     # Shuffle data to train, dev
     # X_train, X_test, X_dev, X_dev_test = train_test_split(X_train, y_train, test_size=0.05, random_state=42)
 
-    print "Time used {} second for loading data..".format(time.time() - start_time)
+    print ("Time used {} second for loading data..".format(time.time() - start_time))
 
     return X_train.T, X_test.T, y_train.T, y_test.T
 
@@ -246,16 +246,16 @@ if __name__ == "__main__":
 
     X_train, X_test, y_train, y_test = load_data()
 
-    print "X_train {}".format(X_train.shape)
-    print "X_test {}".format(X_test.shape)
-    print "y_train {}".format(y_train.shape)
-    print "y_test {}".format(y_test.shape)
+    print ("X_train {}".format(X_train.shape))
+    print ("X_test {}".format(X_test.shape))
+    print ("y_train {}".format(y_train.shape))
+    print ("y_test {}".format(y_test.shape))
 
 
     # Training model
     layers_dims = (X_train.shape[0], 100, y_train.shape[0])
-    parameters = L_layer_model(X_train, y_train, layers_dims, learning_rate=0.075, num_iterations=10, print_cost=True)
-    print "Training finished! Time used {} seconds!".format(time.time() - start_time)
+    parameters = L_layer_model(X_train, y_train, layers_dims, learning_rate=0.075, num_iterations=1000, print_cost=True)
+    print ("Training finished! Time used {} seconds!".format(time.time() - start_time))
 
     # Predict
     predictions = predict(parameters, X_test)
@@ -265,5 +265,5 @@ if __name__ == "__main__":
     # print predictions - y_test
     # print (np.sum(predictions - y_test, axis=0) == 0).shape
 
-    print "Accuracy: {}".format(np.sum(np.sum(predictions - y_test, axis=0) == 0)/y_test.shape[1])
+    print ("Accuracy: {}".format(np.sum(np.sum(predictions - y_test, axis=0) == 0)/y_test.shape[1]))
     # print ('Accuracy: %d' % float((np.dot(y_test, predictions.T) + np.dot(1 - y_test, 1 - predictions.T)) / float(y_test.size) * 100) + '%')

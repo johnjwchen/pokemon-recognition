@@ -1,7 +1,6 @@
 # coding: utf-8
-import minpy.numpy as np
-from minpy.context import cpu, gpu
-from dnn_app_utils_v2 import *
+import numpy as np
+from jwchen.dnn_app_utils_v2 import *
 
 
 def predict(parameters, X):
@@ -24,9 +23,6 @@ def predict(parameters, X):
 
     return predictions
 
-def L_layer_model_gpu(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 3000, print_cost=False):
-    with gpu(0):
-        L_layer_model(X, Y, layers_dims, learning_rate, num_iterations, print_cost)
 
 def L_layer_model(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 3000, print_cost=False):#lr was 0.009
     """
